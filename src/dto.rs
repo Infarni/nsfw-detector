@@ -5,11 +5,8 @@ use utoipa::ToSchema;
 
 #[derive(Debug, Serialize, ToSchema)]
 pub struct DetectResponseDto {
-    pub drawings: f32,
-    pub hentai: f32,
-    pub neutral: f32,
-    pub porn: f32,
-    pub sexy: f32,
+    pub passed_validation: bool,
+    pub percentage: f32,
 }
 
 #[derive(Debug, MultipartForm, ToSchema)]
@@ -26,12 +23,10 @@ pub struct ErrorDto {
 
 impl From<Vec<Classification>> for DetectResponseDto {
     fn from(value: Vec<Classification>) -> Self {
+        let percentage: f32 = (value[3].score + value[4].score) / 2.0 * 100.0;
         Self {
-            drawings: value[0].score * 100.0,
-            hentai: value[1].score * 100.0,
-            neutral: value[2].score * 100.0,
-            porn: value[3].score * 100.0,
-            sexy: value[4].score * 100.0,
+            passed_validation: percentage < 50.0,
+            percentage: percentage,
         }
     }
 }
