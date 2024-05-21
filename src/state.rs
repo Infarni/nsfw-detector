@@ -8,7 +8,10 @@ pub struct AppState {
 impl AppState {
     pub fn new() -> Self {
         Self {
-            model: nsfw::create_model(&include_bytes!(concat!(env!("CARGO_MANIFEST_DIR"), "/model.onnx"))[..]).unwrap(),
+            model: nsfw::create_model(
+                &include_bytes!(concat!(env!("CARGO_MANIFEST_DIR"), "/model.onnx"))[..],
+            )
+            .unwrap(),
         }
     }
 }

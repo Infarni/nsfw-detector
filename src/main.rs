@@ -7,7 +7,11 @@ use utoipa_swagger_ui::SwaggerUi;
 #[derive(OpenApi)]
 #[openapi(
     paths(handlers::detect_photo_handler),
-    components(schemas(nsfw_detector::dto::DetectResponseDto, nsfw_detector::dto::ErrorDto, nsfw_detector::dto::FileDto))
+    components(schemas(
+        nsfw_detector::dto::DetectResponseDto,
+        nsfw_detector::dto::ErrorDto,
+        nsfw_detector::dto::FileDto
+    ))
 )]
 struct ApiDoc;
 

@@ -7,7 +7,7 @@ use crate::dto::ErrorDto;
 pub enum AppError {
     #[error("error read file")]
     Read(#[from] actix_multipart::MultipartError),
-    
+
     #[error("not photo")]
     Image(#[from] image::ImageError),
 
@@ -24,6 +24,8 @@ impl ResponseError for AppError {
     }
 
     fn error_response(&self) -> actix_web::HttpResponse {
-        HttpResponse::build(self.status_code()).json(ErrorDto { message: self.to_string() })
+        HttpResponse::build(self.status_code()).json(ErrorDto {
+            message: self.to_string(),
+        })
     }
 }
