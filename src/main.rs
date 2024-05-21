@@ -10,7 +10,9 @@ use utoipa_swagger_ui::SwaggerUi;
     components(schemas(
         nsfw_detector::dto::DetectResponseDto,
         nsfw_detector::dto::ErrorDto,
-        nsfw_detector::dto::FileDto
+        nsfw_detector::dto::FileDto,
+        nsfw_detector::dto::ClassificationDto,
+        nsfw_detector::dto::ClassificationName,
     ))
 )]
 struct ApiDoc;
