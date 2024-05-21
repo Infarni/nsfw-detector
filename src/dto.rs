@@ -53,7 +53,7 @@ impl From<Vec<Classification>> for DetectResponseDto {
             };
         }
 
-        let percentage: f32 = coefficient * 100.0;
+        let percentage: f32 = (coefficient * 100.0).round();
 
         Self {
             passed_validation: percentage < classification.trigger,
