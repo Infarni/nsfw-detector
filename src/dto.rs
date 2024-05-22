@@ -1,8 +1,13 @@
 use actix_multipart::form::{tempfile::TempFile, MultipartForm};
 use log::info;
 use nsfw::model::Classification;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
+
+#[derive(Debug, Deserialize, ToSchema)]
+pub struct DetectQueryDto {
+    pub trigger: Option<f32>
+}
 
 #[derive(Debug, Serialize, ToSchema)]
 pub struct DetectResponseDto {
@@ -35,8 +40,8 @@ pub struct ErrorDto {
     pub message: String,
 }
 
-impl From<Vec<Classification>> for DetectResponseDto {
-    fn from(value: Vec<Classification>) -> Self {
+impl DetectResponseDto {
+    pub fn new(value: Vec<Classification>, trigger: Option<f32>) -> Self {
         info!("{:#?}", value);
         let coefficient: f32 = value[3].score.max(value[4].score);
         let classification: ClassificationDto;
@@ -44,12 +49,18 @@ impl From<Vec<Classification>> for DetectResponseDto {
         if coefficient == value[3].score {
             classification = ClassificationDto {
                 name: ClassificationName::Porn,
-                trigger: 70.0,
+                trigger: match trigger {
+                    Some(v) => v,
+                    None => 70.0
+                },
             };
         } else {
             classification = ClassificationDto {
                 name: ClassificationName::Sexy,
-                trigger: 50.0,
+                trigger: match trigger {
+                    Some(v) => v,
+                    None => 50.0
+                },
             };
         }
 

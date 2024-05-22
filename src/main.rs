@@ -10,6 +10,7 @@ use utoipa_swagger_ui::SwaggerUi;
     paths(handlers::detect_photo_handler),
     components(schemas(
         nsfw_detector::dto::DetectResponseDto,
+        nsfw_detector::dto::DetectQueryDto,
         nsfw_detector::dto::ErrorDto,
         nsfw_detector::dto::FileDto,
         nsfw_detector::dto::ClassificationDto,
